@@ -52,16 +52,17 @@ function M.search_api(query)
 				-- Leer si usamos location list desde el 'setup'
 				local opts = require("cosmoseek").options or {}
 				local use_loclist = opts.use_location_list
+				local title = opts.title or "CosmoSeek"
 
 				if use_loclist then
 					vim.fn.setloclist(0, {}, "r", {
-						title = "CosmoSeek results",
+						title = title,
 						items = qf_items,
 					})
 					vim.cmd("lopen")
 				else
 					vim.fn.setqflist({}, "r", {
-						title = "CosmoSeek results",
+						title = title,
 						items = qf_items,
 					})
 					vim.cmd("copen")
@@ -71,7 +72,7 @@ function M.search_api(query)
 	}):start()
 end
 
-function M.open_selected_qf()
+function M.on_search_open()
 	local qf_items = vim.fn.getqflist({ items = 1 }).items
 	local qf_idx = vim.fn.getqflist({ idx = 0 }).idx
 	if qf_idx == 0 or qf_items == nil then
